@@ -1,6 +1,5 @@
 package com.example.technicaltest2
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +15,7 @@ class AuthViewModel : ViewModel(){
         _authState.value = AuthState.Loading
 
         if(username.isEmpty() || password.isEmpty()){
-            _authState.value = AuthState.Error("Username and password must not be empty")
+            _authState.value = AuthState.Error("Please fill the username and passwrod")
             return
         }
 
