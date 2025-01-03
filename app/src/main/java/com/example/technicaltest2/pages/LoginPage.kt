@@ -73,7 +73,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     //sliding animation
     val isImageVisible = remember { mutableStateOf(false) }
     val isColumnVisible = remember { mutableStateOf(false) }
-    val isErrorVisible = remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         isColumnVisible.value = true
         delay(250)
@@ -82,11 +81,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
 
     //error message
     var errorMessage by remember { mutableStateOf("") }
-    suspend fun showErrorMsg(){
-        isErrorVisible.value = true
-        delay(3000)
-        isErrorVisible.value = false
-    }
 
     //auth state
     LaunchedEffect(authState.value) {
@@ -96,7 +90,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
             }
             is AuthState.Error -> {
                 errorMessage = (authState.value as AuthState.Error).message
-                showErrorMsg()
                 authViewModel.resetAuthState()
             }
             else -> { Unit }
@@ -248,7 +241,14 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                             }
                         )
                     }
-                    Spacer(modifier = Modifier.height(36.dp))
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Text(
+                        text = errorMessage,
+                        color = Color.Red,
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(14.dp))
                     Button(
                         onClick = {
                             authViewModel.login(username, password)
@@ -271,45 +271,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
             modifier = Modifier.fillMaxWidth().background(Color.White).height(40.dp),
             contentAlignment = Alignment.BottomCenter
         ){
-        }
-        AnimatedVisibility(
-            visible = isErrorVisible.value,
-            enter = slideInVertically(
-                initialOffsetY = { fullHeight -> fullHeight },
-                animationSpec = tween(
-                    durationMillis = 200,
-                    easing = EaseOut
-                )
-            ),
-            exit = slideOutVertically(
-                targetOffsetY = { fullHeight -> fullHeight },
-                animationSpec = tween(
-                    durationMillis = 200,
-                    easing = EaseIn
-                )
-            )
-        ){
-            Row(
-                modifier = Modifier
-                    .width(250.dp)
-                    .height(150.dp)
-                    .background(Color.White)
-                    .border(3.dp, SecondaryColor, RoundedCornerShape(24.dp))
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.Top
-            ){
-                Column {
-                    Text("Oops!", color = Color.Red.copy(0.9f), fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth(0.5f))
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(errorMessage, color = Color.Red.copy(0.9f), modifier = Modifier.fillMaxWidth(0.5f), fontSize = 14.sp, textAlign = TextAlign.End, lineHeight = 16.sp)
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.salma),
-                    contentDescription = "Background image",
-                    modifier = Modifier.size(200.dp)
-                )
-            }
         }
     }
 }
