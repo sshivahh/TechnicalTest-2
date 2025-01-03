@@ -3,7 +3,9 @@ package com.example.technicaltest2.pages
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -63,28 +66,27 @@ import com.example.technicaltest2.ui.theme.SecondaryColor
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel){
+fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
     val authState = authViewModel.authState.observeAsState()
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-
-    //sliding animation
+    // sliding animation
     val isImageVisible = remember { mutableStateOf(false) }
     val isColumnVisible = remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        isColumnVisible.value = true
-        delay(250)
         isImageVisible.value = true
+        delay(1400)
+        isColumnVisible.value = true
     }
 
-    //error message
+    // error message
     var errorMessage by remember { mutableStateOf("") }
 
-    //auth state
+    // auth state
     LaunchedEffect(authState.value) {
-        when(authState.value){
+        when (authState.value) {
             is AuthState.Authenticated -> {
                 navController.navigate("list")
             }
@@ -96,15 +98,21 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
         }
     }
 
-    //password visibility
+    // password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
+
+    // animate image position
+    val imageOffsetY by animateFloatAsState(
+        targetValue = if (isColumnVisible.value) -10f else 0f,
+        animationSpec = tween(durationMillis = 600)
+    )
 
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(PrimaryColor),
         contentAlignment = Alignment.BottomEnd
-    ){
+    ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -114,21 +122,20 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
         ) {
             AnimatedVisibility(
                 visible = isImageVisible.value,
-                enter = slideInVertically(
-                    initialOffsetY = { fullHeight -> fullHeight },
+                enter = fadeIn(
                     animationSpec = tween(
                         durationMillis = 500,
                         easing = EaseIn
                     )
                 )
-            ){
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.3f),
+                        .fillMaxHeight(0.3f)
+                        .offset(y = imageOffsetY.dp),
                     contentAlignment = Alignment.Center
-                ){
-
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.alfagift),
                         contentDescription = "Alfagift Logo",
@@ -142,7 +149,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                     initialOffsetY = { fullHeight -> fullHeight },
                     animationSpec = tween(durationMillis = 600)
                 )
-            ){
+            ) {
                 Column(
                     modifier = Modifier
                         .shadow(
@@ -161,7 +168,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                         Text(" to your account.", fontSize = 24.sp, color = Color.Gray)
                     }
                     Spacer(modifier = Modifier.height(48.dp))
-                    Row (
+                    Row(
                         modifier = Modifier.fillMaxWidth(0.9f),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
@@ -183,7 +190,10 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                                 focusedIndicatorColor = SecondaryColor,
                                 unfocusedLabelColor = SecondaryColor,
                                 unfocusedContainerColor = Color.White,
-                                focusedContainerColor = Color.White
+                                focusedContainerColor = Color.White,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                cursorColor = Color.Black
                             ),
                             modifier = Modifier
                                 .fillMaxWidth(0.7f)
@@ -194,7 +204,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                         )
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row (
+                    Row(
                         modifier = Modifier.fillMaxWidth(0.9f),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
@@ -216,7 +226,10 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                                 focusedIndicatorColor = SecondaryColor,
                                 unfocusedLabelColor = SecondaryColor,
                                 unfocusedContainerColor = Color.White,
-                                focusedContainerColor = Color.White
+                                focusedContainerColor = Color.White,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                cursorColor = Color.Black
                             ),
                             modifier = Modifier
                                 .fillMaxWidth(0.7f)
@@ -224,7 +237,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                             label = {
                                 Text("Password")
                             },
-                            visualTransformation = if(!isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+                            visualTransformation = if (!isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None,
                             trailingIcon = {
                                 IconButton(
                                     onClick = {
@@ -263,14 +276,16 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                     ) {
                         Text("Login")
                     }
-
                 }
             }
         }
         Box(
-            modifier = Modifier.fillMaxWidth().background(Color.White).height(40.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .height(40.dp),
             contentAlignment = Alignment.BottomCenter
-        ){
+        ) {
         }
     }
 }
