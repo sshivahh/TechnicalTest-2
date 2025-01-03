@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -108,7 +110,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
         modifier = modifier
             .fillMaxSize()
             .background(PrimaryColor),
-        contentAlignment = Alignment.BottomCenter
+        contentAlignment = Alignment.BottomEnd
     ){
         Column(
             modifier = modifier
@@ -290,7 +292,10 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
             Row(
                 modifier = Modifier
                     .width(250.dp)
-                    .height(150.dp),
+                    .height(150.dp)
+                    .background(Color.White)
+                    .border(3.dp, SecondaryColor, RoundedCornerShape(24.dp))
+                    .padding(16.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Top
             ){
