@@ -125,14 +125,14 @@ fun StudentItem(student: Student) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(id = student.profilePictureUrl),
                 contentDescription = "Profile Picture",
                 modifier = Modifier
-                    .fillMaxHeight(0.85f)
+                    .fillMaxHeight(0.75f)
                     .clip(RoundedCornerShape(8.dp)),
             )
             Spacer(modifier = Modifier.width(24.dp))
