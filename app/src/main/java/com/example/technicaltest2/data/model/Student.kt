@@ -5,5 +5,5 @@ import androidx.compose.ui.graphics.vector.ImageVector
 data class Student(
     val name: String,
     val address: String,
-    val profilePictureUrl: ImageVector
+    val profilePictureUrl: Int
 )

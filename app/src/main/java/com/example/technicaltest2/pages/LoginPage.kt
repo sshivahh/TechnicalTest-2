@@ -1,7 +1,5 @@
 package com.example.technicaltest2.pages
 
-import android.widget.Space
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
@@ -10,7 +8,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,9 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -73,7 +67,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val context = LocalContext.current
 
     //sliding animation
     val isImageVisible = remember { mutableStateOf(false) }
@@ -114,7 +107,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(PrimaryColor),
         contentAlignment = Alignment.BottomCenter
     ){
         Column(
@@ -240,11 +233,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                             trailingIcon = {
                                 IconButton(
                                     onClick = {
-                                        if(isPasswordVisible){
-                                            isPasswordVisible = false
-                                        } else {
-                                            isPasswordVisible = true
-                                        }
+                                        isPasswordVisible = !isPasswordVisible
                                     },
                                     modifier = Modifier.size(24.dp)
                                 ) {
@@ -272,8 +261,14 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                     ) {
                         Text("Login")
                     }
+
                 }
             }
+        }
+        Box(
+            modifier = Modifier.fillMaxWidth().background(Color.White).height(40.dp),
+            contentAlignment = Alignment.BottomCenter
+        ){
         }
         AnimatedVisibility(
             visible = isErrorVisible.value,
@@ -299,7 +294,11 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.Top
             ){
-                Text(errorMessage, color = Color.Red.copy(0.9f), modifier = Modifier.fillMaxWidth(0.5f), fontSize = 14.sp, textAlign = TextAlign.End, lineHeight = 16.sp)
+                Column {
+                    Text("Oops!", color = Color.Red.copy(0.9f), fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth(0.5f))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(errorMessage, color = Color.Red.copy(0.9f), modifier = Modifier.fillMaxWidth(0.5f), fontSize = 14.sp, textAlign = TextAlign.End, lineHeight = 16.sp)
+                }
                 Image(
                     painter = painterResource(id = R.drawable.salma),
                     contentDescription = "Background image",
