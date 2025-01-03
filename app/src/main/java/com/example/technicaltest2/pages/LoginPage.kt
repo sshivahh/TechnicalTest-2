@@ -1,16 +1,14 @@
 package com.example.technicaltest2.pages
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +19,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,6 +62,7 @@ import com.example.technicaltest2.ui.theme.PrimaryColor
 import com.example.technicaltest2.ui.theme.SecondaryColor
 import kotlinx.coroutines.delay
 
+@SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
     val authState = authViewModel.authState.observeAsState()
@@ -72,7 +70,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // sliding animation
+    // animation
     val isImageVisible = remember { mutableStateOf(false) }
     val isColumnVisible = remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -80,6 +78,10 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
         delay(1400)
         isColumnVisible.value = true
     }
+    val imageOffsetY by animateFloatAsState(
+        targetValue = if (isColumnVisible.value) -10f else 0f,
+        animationSpec = tween(durationMillis = 800), label = ""
+    )
 
     // error message
     var errorMessage by remember { mutableStateOf("") }
@@ -101,11 +103,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     // password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
 
-    // animate image position
-    val imageOffsetY by animateFloatAsState(
-        targetValue = if (isColumnVisible.value) -10f else 0f,
-        animationSpec = tween(durationMillis = 600)
-    )
 
     Box(
         modifier = modifier
@@ -279,13 +276,23 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                 }
             }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .height(40.dp),
-            contentAlignment = Alignment.BottomCenter
+        AnimatedVisibility(
+            visible = isColumnVisible.value,
+            enter = fadeIn(animationSpec = tween(durationMillis = 600))
         ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(SecondaryColor)
+                    .height(40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Technical Test by Russel Shivah B.",
+                    color = Color.White.copy(0.6f),
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }

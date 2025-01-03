@@ -1,5 +1,9 @@
 package com.example.technicaltest2.pages
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +51,12 @@ import com.example.technicaltest2.ui.theme.SecondaryColor
 fun StudentListPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
     val authState = authViewModel.authState.observeAsState()
 
+    // animation
+    val isColumnVisible = remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        isColumnVisible.value = true
+    }
+
 
     LaunchedEffect(authState.value) {
         when(authState.value){
@@ -60,50 +72,66 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.alfagift),
-            contentDescription = "alfagift",
-            modifier = Modifier.size(70.dp)
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp))
-                .shadow(
-                    elevation = 20.dp,
-                    shape = RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp),
-                    clip = true
-                )
-                .background(Color.White),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+        AnimatedVisibility(
+            visible = isColumnVisible.value,
+            enter = slideInHorizontally(
+                initialOffsetX = { fullHeight -> fullHeight},
+                animationSpec = tween(durationMillis = 1000)
+            )
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.alfagift),
+                contentDescription = "alfagift",
+                modifier = Modifier.size(70.dp)
+            )
+        }
+        AnimatedVisibility(
+            visible = isColumnVisible.value,
+            enter = slideInVertically(
+                initialOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(durationMillis = 1000)
+            )
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
-                Text(
-                    text = "Student",
-                    color = PrimaryColor,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = " List",
-                    color = SecondaryColor,
-                    fontSize = 36.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp))
+                    .shadow(
+                        elevation = 20.dp,
+                        shape = RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp),
+                        clip = true
+                    )
+                    .background(Color.White),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(16.dp)
             ) {
-                items(StudentData.students) { student ->
-                    StudentItem(student)
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ){
+                    Text(
+                        text = "Student",
+                        color = PrimaryColor,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = " List",
+                        color = SecondaryColor,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(16.dp)
+                ) {
+                    items(StudentData.students) { student ->
+                        StudentItem(student)
+                    }
                 }
             }
         }
