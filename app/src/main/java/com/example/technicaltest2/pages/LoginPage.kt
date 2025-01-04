@@ -102,7 +102,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     // password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
 
-
     Box(
         modifier = modifier
             .fillMaxSize()

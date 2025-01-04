@@ -65,7 +65,14 @@ import com.example.technicaltest2.ui.theme.SecondaryColor
 
 @Composable
 fun StudentListPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
+    // authentication
     val authState = authViewModel.authState.observeAsState()
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Unauthenticated -> navController.navigate("login")
+            else -> { Unit }
+        }
+    }
 
     // animation
     val isColumnVisible = remember { mutableStateOf(false) }
@@ -78,14 +85,6 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 
     //logout window
     var isLogoutVisible by remember { mutableStateOf(false) }
-
-
-    LaunchedEffect(authState.value) {
-        when(authState.value){
-            is AuthState.Unauthenticated -> navController.navigate("login")
-            else -> { Unit }
-        }
-    }
 
     Box(
         modifier = Modifier
