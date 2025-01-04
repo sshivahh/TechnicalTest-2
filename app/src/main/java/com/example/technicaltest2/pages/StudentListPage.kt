@@ -98,7 +98,7 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
         AnimatedVisibility(
             visible = isLogoutVisible,
             enter = fadeIn(
-                animationSpec = tween(durationMillis = 1000)
+                animationSpec = tween(durationMillis = 600)
             ),
             exit = fadeOut(
                 animationSpec = tween(durationMillis = 1000)
