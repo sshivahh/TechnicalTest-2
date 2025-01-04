@@ -65,8 +65,26 @@ import kotlinx.coroutines.delay
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
-    val authState = authViewModel.authState.observeAsState()
 
+    // error message
+    var errorMessage by remember { mutableStateOf("") }
+
+    // authentication
+    val authState = authViewModel.authState.observeAsState()
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Authenticated -> {
+                navController.navigate("list")
+            }
+            is AuthState.Error -> {
+                errorMessage = (authState.value as AuthState.Error).message
+                authViewModel.resetAuthState()
+            }
+            else -> { Unit }
+        }
+    }
+
+    // credentials
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -82,23 +100,6 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
         targetValue = if (isColumnVisible.value) -10f else 0f,
         animationSpec = tween(durationMillis = 800), label = ""
     )
-
-    // error message
-    var errorMessage by remember { mutableStateOf("") }
-
-    // auth state
-    LaunchedEffect(authState.value) {
-        when (authState.value) {
-            is AuthState.Authenticated -> {
-                navController.navigate("list")
-            }
-            is AuthState.Error -> {
-                errorMessage = (authState.value as AuthState.Error).message
-                authViewModel.resetAuthState()
-            }
-            else -> { Unit }
-        }
-    }
 
     // password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
