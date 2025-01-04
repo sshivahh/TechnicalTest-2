@@ -1,12 +1,15 @@
 package com.example.technicaltest2.pages
 
+import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,19 +24,26 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,6 +66,9 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
     LaunchedEffect(Unit) {
         isColumnVisible.value = true
     }
+
+    // name search
+    var nameSearch by remember { mutableStateOf("") }
 
 
     LaunchedEffect(authState.value) {
@@ -124,12 +137,53 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
                         fontWeight = FontWeight.Bold
                     )
                 }
+                TextField(
+                    value = nameSearch,
+                    onValueChange = {
+                        nameSearch = it
+                    },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        unfocusedLabelColor = SecondaryColor,
+                        unfocusedTextColor = Color.Black,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        focusedLabelColor = SecondaryColor,
+                        focusedTextColor = Color.Black,
+                        focusedIndicatorColor = Color.Transparent,
+                        cursorColor = Color.White,
+                    ),
+                    label ={
+                        Text(
+                            text = "Search by name",
+                            color = SecondaryColor,
+                            fontSize = 14.sp
+                        )
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                    trailingIcon = {
+                        Image(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                            modifier = Modifier.size(24.dp),
+                            colorFilter = ColorFilter.tint(SecondaryColor)
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .border(3.dp, SecondaryColor, shape = RoundedCornerShape(16.dp))
+                )
+                Spacer(modifier = Modifier.height(8.dp))
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(16.dp)
+                    contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 20.dp)
                 ) {
-                    items(StudentData.students) { student ->
+                    val filteredStudents = StudentData.students.filter { student ->
+                        student.name.contains(nameSearch, ignoreCase = true)
+                    }
+                    items(filteredStudents) { student ->
                         StudentItem(student)
                     }
                 }

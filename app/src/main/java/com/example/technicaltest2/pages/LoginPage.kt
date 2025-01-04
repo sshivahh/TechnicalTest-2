@@ -220,13 +220,15 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                             },
                             colors = TextFieldDefaults.colors(
                                 focusedLabelColor = SecondaryColor,
+                                unfocusedIndicatorColor = Color.Black,
                                 focusedIndicatorColor = SecondaryColor,
                                 unfocusedLabelColor = SecondaryColor,
                                 unfocusedContainerColor = Color.White,
                                 focusedContainerColor = Color.White,
                                 focusedTextColor = Color.Black,
                                 unfocusedTextColor = Color.Black,
-                                cursorColor = Color.Black
+                                cursorColor = Color.Black,
+
                             ),
                             modifier = Modifier
                                 .fillMaxWidth(0.7f)
