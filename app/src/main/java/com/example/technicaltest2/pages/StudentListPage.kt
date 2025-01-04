@@ -93,47 +93,55 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
             .clip(RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp))
             .zIndex(if (isLogoutVisible) 2f else 0f)
     ){
-        Box(
-            modifier = Modifier
-                .width(300.dp)
-                .height(200.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(Color.White)
-                .align(Alignment.Center)
-                .padding(vertical = 30.dp, horizontal = 24.dp)
-        ){
-            Column {
-                Text("Are you sure you want to logout?", fontSize = 24.sp, color = SecondaryColor, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.weight(1f))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Button(
-                        onClick = {
-                            isLogoutVisible = false
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = SecondaryColor
-                        ),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .height(50.dp)
+        AnimatedVisibility(
+            visible = isLogoutVisible,
+            enter = slideInVertically(
+                initialOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(durationMillis = 1000)
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(300.dp)
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .background(Color.White)
+                    .align(Alignment.Center)
+                    .padding(vertical = 30.dp, horizontal = 24.dp)
+            ){
+                Column {
+                    Text("Are you sure you want to logout?", fontSize = 24.sp, color = SecondaryColor, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text("Cancel", color = Color.White)
-                    }
-                    Button(
-                        onClick = {
-                            authViewModel.logout()
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = PrimaryColor
-                        ),
-                        modifier = Modifier
-                            .width(110.dp)
-                            .height(50.dp)
-                    ) {
-                        Text("Logout", color = Color.White)
+                        Button(
+                            onClick = {
+                                isLogoutVisible = false
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = SecondaryColor
+                            ),
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(50.dp)
+                        ) {
+                            Text("Cancel", color = Color.White)
+                        }
+                        Button(
+                            onClick = {
+                                authViewModel.logout()
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = PrimaryColor
+                            ),
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(50.dp)
+                        ) {
+                            Text("Logout", color = Color.White)
+                        }
                     }
                 }
             }
