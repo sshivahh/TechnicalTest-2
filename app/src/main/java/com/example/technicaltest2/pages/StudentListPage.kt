@@ -9,6 +9,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -94,6 +95,7 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
             .background(Color.Black.copy(0.3f))
             .clip(RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp))
             .zIndex(if (isLogoutVisible) 2f else 0f)
+            .clickable(enabled = true, onClick = { isLogoutVisible = false })
     ){
         AnimatedVisibility(
             visible = isLogoutVisible,
