@@ -1,6 +1,5 @@
 package com.example.technicaltest2.pages
 
-import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -25,9 +24,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -46,8 +50,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.example.technicaltest2.AuthState
 import com.example.technicaltest2.AuthViewModel
@@ -70,6 +76,9 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
     // name search
     var nameSearch by remember { mutableStateOf("") }
 
+    //logout window
+    var isLogoutVisible by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(authState.value) {
         when(authState.value){
@@ -78,6 +87,88 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
         }
     }
 
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(0.3f))
+            .clip(RoundedCornerShape(topStart = 48.dp, topEnd = 48.dp))
+            .zIndex(if (isLogoutVisible) 2f else 0f)
+    ){
+        Box(
+            modifier = Modifier
+                .width(300.dp)
+                .height(200.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(Color.White)
+                .align(Alignment.Center)
+                .padding(vertical = 30.dp, horizontal = 24.dp)
+        ){
+            Column {
+                Text("Are you sure you want to logout?", fontSize = 24.sp, color = SecondaryColor, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.weight(1f))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(
+                        onClick = {
+                            isLogoutVisible = false
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = SecondaryColor
+                        ),
+                        modifier = Modifier
+                            .width(110.dp)
+                            .height(50.dp)
+                    ) {
+                        Text("Cancel", color = Color.White)
+                    }
+                    Button(
+                        onClick = {
+                            authViewModel.logout()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PrimaryColor
+                        ),
+                        modifier = Modifier
+                            .width(110.dp)
+                            .height(50.dp)
+                    ) {
+                        Text("Logout", color = Color.White)
+                    }
+                }
+            }
+        }
+
+    }
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
+            .zIndex(1f)
+    ){
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ){
+            IconButton(
+                onClick = {
+                    isLogoutVisible = true
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Logout,
+                    contentDescription = "Logout",
+                    tint = Color.White,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
