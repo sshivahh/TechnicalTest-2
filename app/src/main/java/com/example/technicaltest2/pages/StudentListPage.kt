@@ -2,6 +2,8 @@ package com.example.technicaltest2.pages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
@@ -95,10 +97,14 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
     ){
         AnimatedVisibility(
             visible = isLogoutVisible,
-            enter = slideInVertically(
-                initialOffsetY = { fullHeight -> fullHeight },
+            enter = fadeIn(
                 animationSpec = tween(durationMillis = 1000)
-            )
+            ),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 1000)
+            ),
+            modifier = Modifier
+                .align(Alignment.Center)
         ) {
             Box(
                 modifier = Modifier
