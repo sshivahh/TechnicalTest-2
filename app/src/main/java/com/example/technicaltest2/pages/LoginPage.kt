@@ -1,6 +1,5 @@
 package com.example.technicaltest2.pages
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.animateFloatAsState
@@ -62,7 +61,6 @@ import com.example.technicaltest2.ui.theme.PrimaryColor
 import com.example.technicaltest2.ui.theme.SecondaryColor
 import kotlinx.coroutines.delay
 
-@SuppressLint("UseOfNonLambdaOffsetOverload")
 @Composable
 fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
 
