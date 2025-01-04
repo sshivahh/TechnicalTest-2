@@ -15,7 +15,7 @@ class AuthViewModel : ViewModel(){
         _authState.value = AuthState.Loading
 
         if(username.isEmpty() || password.isEmpty()){
-            _authState.value = AuthState.Error("Please fill the username and passwrod")
+            _authState.value = AuthState.Error("Please fill the username and password")
             return
         }
 

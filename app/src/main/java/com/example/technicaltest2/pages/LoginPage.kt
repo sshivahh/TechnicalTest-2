@@ -102,6 +102,15 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
     // password visibility
     var isPasswordVisible by remember { mutableStateOf(false) }
 
+    // shake animation
+    val shakeOffset by animateFloatAsState(
+        targetValue = if (errorMessage.isNotEmpty()) 10f else 0f,
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = { fraction -> if (fraction < 0.5f) fraction * 2 else (1 - fraction) * 2 }
+        ), label = ""
+    )
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -256,7 +265,8 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                         text = errorMessage,
                         color = Color.Red,
                         fontSize = 14.sp,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.offset(x = shakeOffset.dp)
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     Button(
