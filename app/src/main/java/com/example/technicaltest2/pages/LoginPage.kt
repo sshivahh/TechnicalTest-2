@@ -192,6 +192,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                             colors = TextFieldDefaults.colors(
                                 focusedLabelColor = SecondaryColor,
                                 focusedIndicatorColor = SecondaryColor,
+                                unfocusedIndicatorColor = SecondaryColor,
                                 unfocusedLabelColor = SecondaryColor,
                                 unfocusedContainerColor = Color.White,
                                 focusedContainerColor = Color.White,
