@@ -314,6 +314,7 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
     val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300))
     val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300))
     val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300))
+    val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300))
 
     Card(
         modifier = Modifier
@@ -365,8 +366,7 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "info",
                     tint = SecondaryColor,
-                    modifier = Modifier
-                        .rotate(if (isOpened) 180f else 0f)
+                    modifier = Modifier.rotate(rotationAngle)
                 )
             }
         }
