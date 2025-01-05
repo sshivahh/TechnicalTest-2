@@ -30,10 +30,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -311,10 +308,18 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 @Composable
 fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Student?) -> Unit) {
     val isOpened = student == openedStudent
-    val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300))
-    val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300))
-    val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300))
-    val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300))
+    val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
+    val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
+    val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
+    val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
 
     Card(
         modifier = Modifier
