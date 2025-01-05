@@ -301,12 +301,13 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 
 @Composable
 fun StudentItem(student: Student) {
+    var isOpened by remember{ mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp),
+            .height(if (isOpened) 200.dp else 100.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(5.dp),
+        elevation = CardDefaults.elevatedCardElevation(if (isOpened) 20.dp else 5.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         )
@@ -333,7 +334,7 @@ fun StudentItem(student: Student) {
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-
+                    isOpened = !isOpened
                 },
             ){
                 Icon(
