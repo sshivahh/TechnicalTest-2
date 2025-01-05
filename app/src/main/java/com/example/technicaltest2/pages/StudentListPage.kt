@@ -338,8 +338,8 @@ fun StudentItem(student: Student) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(student.address, color = Color.Black.copy(0.6f), fontSize = addressFontSize.sp)
-                Text("Age: 20", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
-                Text("GPA: 3.21", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
