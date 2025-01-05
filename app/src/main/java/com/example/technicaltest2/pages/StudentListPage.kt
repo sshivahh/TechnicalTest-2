@@ -364,7 +364,7 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
                 if (isOpened) {
                     Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
                     Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
-                    Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = fontSize.sp, fontWeight = FontWeight.Bold)
+                    Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp, fontWeight = FontWeight.Bold)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
