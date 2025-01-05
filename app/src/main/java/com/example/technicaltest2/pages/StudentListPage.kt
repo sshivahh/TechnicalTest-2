@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -313,7 +314,7 @@ fun StudentItem(student: Student) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp),
+                .padding(start = 16.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -328,6 +329,18 @@ fun StudentItem(student: Student) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(student.address, color = Color.Black.copy(0.6f), fontSize = 18.sp)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {
+
+                },
+            ){
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "info",
+                    tint = SecondaryColor
+                )
             }
         }
     }
