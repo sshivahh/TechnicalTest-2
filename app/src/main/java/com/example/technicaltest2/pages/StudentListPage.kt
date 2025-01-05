@@ -292,6 +292,7 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 20.dp)
                 ) {
                     val filteredStudents = StudentData.students.filter { student ->
@@ -312,27 +313,21 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
     val screenWidth = configuration.screenWidthDp.dp
 
     val isOpened = student == openedStudent
-    val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300),
-        label = ""
-    )
-    val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300),
-        label = ""
-    )
-    val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300),
-        label = ""
-    )
-    val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300),
-        label = ""
-    )
+    val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300), label = "")
+    val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300), label = "")
+    val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300), label = "")
+    val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300), label = "")
+    val cardWidth by animateFloatAsState(targetValue = if (isOpened) 1f else 0.9f, animationSpec = tween(durationMillis = 300), label = "")
 
     val textHeight by animateDpAsState(targetValue = if (isOpened) 20.dp else 0.dp, animationSpec = tween(durationMillis = 300), label = "")
 
     val responsiveAddressFontSize = if (screenWidth > 411.0.dp) 18f else addressFontSize
     val responsiveFontSize = if (screenWidth > 411.0.dp) 16f else fontSize
 
+
     Card(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(cardWidth)
             .height(height),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(if (isOpened) 20.dp else 5.dp),
