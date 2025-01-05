@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -91,6 +92,9 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 
     //logout window
     var isLogoutVisible by remember { mutableStateOf(false) }
+
+    // student detail
+    var openedStudent by remember { mutableStateOf<Student?>(null) }
 
     Box(
         modifier = Modifier
@@ -293,7 +297,7 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
                         student.name.contains(nameSearch, ignoreCase = true)
                     }
                     items(filteredStudents) { student ->
-                        StudentItem(student)
+                        StudentItem(student, openedStudent) { openedStudent = it }
                     }
                 }
             }
@@ -302,8 +306,8 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 }
 
 @Composable
-fun StudentItem(student: Student) {
-    var isOpened by remember { mutableStateOf(false) }
+fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Student?) -> Unit) {
+    val isOpened = student == openedStudent
     val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300))
     val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300))
     val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300))
@@ -333,22 +337,28 @@ fun StudentItem(student: Student) {
             )
             Spacer(modifier = Modifier.width(24.dp))
             Column(
-                modifier = Modifier.fillMaxWidth(0.75f)
+                modifier = Modifier
+                    .fillMaxWidth(0.75f)
+                    .fillMaxHeight(0.8f),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(student.address, color = Color.Black.copy(0.6f), fontSize = addressFontSize.sp)
-                Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
-                Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                if (isOpened) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                    Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                }
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    isOpened = !isOpened
+                    onStudentClick(if (isOpened) null else student)
                 },
             ) {
                 Icon(
-                    imageVector = Icons.Default.Info,
+                    imageVector = if (isOpened) Icons.Default.Close else Icons.Default.Info,
                     contentDescription = "info",
                     tint = SecondaryColor
                 )
