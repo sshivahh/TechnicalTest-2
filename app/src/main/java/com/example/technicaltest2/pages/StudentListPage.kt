@@ -55,6 +55,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -307,6 +308,9 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 
 @Composable
 fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Student?) -> Unit) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
     val isOpened = student == openedStudent
     val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300),
         label = ""
@@ -320,6 +324,9 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
     val rotationAngle by animateFloatAsState(targetValue = if (isOpened) 180f else 0f, animationSpec = tween(durationMillis = 300),
         label = ""
     )
+
+    val responsiveAddressFontSize = if (screenWidth > 411.0.dp) 18f else addressFontSize
+    val responsiveFontSize = if (screenWidth > 411.0.dp) 16f else fontSize
 
     Card(
         modifier = Modifier
@@ -353,11 +360,10 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
             ) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(student.address, color = Color.Black.copy(0.6f), fontSize = addressFontSize.sp)
+                Text(student.address, color = Color.Black.copy(0.6f), fontSize = responsiveAddressFontSize.sp)
                 if (isOpened) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
-                    Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                    Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
+                    Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
                     Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = fontSize.sp, fontWeight = FontWeight.Bold)
                 }
             }
