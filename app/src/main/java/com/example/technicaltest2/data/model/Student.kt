@@ -5,5 +5,6 @@ data class Student(
     val address: String,
     val age : Int,
     val gpa : Float,
+    val quote : String,
     val profilePictureUrl: Int
 )
