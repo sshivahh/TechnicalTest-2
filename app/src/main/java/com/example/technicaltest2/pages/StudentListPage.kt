@@ -349,6 +349,7 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
                     Spacer(modifier = Modifier.height(4.dp))
                     Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
                     Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                    Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = fontSize.sp, fontWeight = FontWeight.Bold)
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
