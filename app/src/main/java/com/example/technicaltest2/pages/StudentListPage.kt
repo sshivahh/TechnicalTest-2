@@ -355,7 +355,7 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
             Column(
                 modifier = Modifier
                     .fillMaxWidth(0.75f)
-                    .fillMaxHeight(0.8f),
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
