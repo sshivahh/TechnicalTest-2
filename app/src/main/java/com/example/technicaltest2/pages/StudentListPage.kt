@@ -1,6 +1,8 @@
 package com.example.technicaltest2.pages
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -301,11 +303,15 @@ fun StudentListPage(modifier: Modifier, navController: NavController, authViewMo
 
 @Composable
 fun StudentItem(student: Student) {
-    var isOpened by remember{ mutableStateOf(false) }
+    var isOpened by remember { mutableStateOf(false) }
+    val height by animateDpAsState(targetValue = if (isOpened) 200.dp else 100.dp, animationSpec = tween(durationMillis = 300))
+    val addressFontSize by animateFloatAsState(targetValue = if (isOpened) 14f else 18f, animationSpec = tween(durationMillis = 300))
+    val fontSize by animateFloatAsState(targetValue = if (isOpened) 12f else 0f, animationSpec = tween(durationMillis = 300))
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(if (isOpened) 200.dp else 100.dp),
+            .height(height),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.elevatedCardElevation(if (isOpened) 20.dp else 5.dp),
         colors = CardDefaults.cardColors(
@@ -326,17 +332,21 @@ fun StudentItem(student: Student) {
                     .clip(RoundedCornerShape(8.dp)),
             )
             Spacer(modifier = Modifier.width(24.dp))
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.75f)
+            ) {
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(student.address, color = Color.Black.copy(0.6f), fontSize = 18.sp)
+                Text(student.address, color = Color.Black.copy(0.6f), fontSize = addressFontSize.sp)
+                Text("Age: 20", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
+                Text("GPA: 3.21", color = Color.Black.copy(0.6f), fontSize = fontSize.sp)
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
                     isOpened = !isOpened
                 },
-            ){
+            ) {
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = "info",
