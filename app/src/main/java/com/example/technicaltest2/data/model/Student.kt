@@ -1,9 +1,9 @@
 package com.example.technicaltest2.data.model
 
-import androidx.compose.ui.graphics.vector.ImageVector
-
 data class Student(
     val name: String,
     val address: String,
+    val age : Int,
+    val gpa : Float,
     val profilePictureUrl: Int
 )
