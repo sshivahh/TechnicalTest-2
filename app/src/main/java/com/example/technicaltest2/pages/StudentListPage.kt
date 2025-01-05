@@ -325,6 +325,8 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
         label = ""
     )
 
+    val textHeight by animateDpAsState(targetValue = if (isOpened) 20.dp else 0.dp, animationSpec = tween(durationMillis = 300), label = "")
+
     val responsiveAddressFontSize = if (screenWidth > 411.0.dp) 18f else addressFontSize
     val responsiveFontSize = if (screenWidth > 411.0.dp) 16f else fontSize
 
@@ -361,11 +363,9 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
                 Text(student.name, fontSize = 22.sp, color = SecondaryColor, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(student.address, color = Color.Black.copy(0.6f), fontSize = responsiveAddressFontSize.sp)
-                if (isOpened) {
-                    Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
-                    Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp)
-                    Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp, fontWeight = FontWeight.Bold)
-                }
+                Text("Age: ${student.age}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp, modifier = Modifier.height(textHeight))
+                Text("GPA: ${student.gpa}", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp, modifier = Modifier.height(textHeight))
+                Text("\"${student.quote}\"", color = Color.Black.copy(0.6f), fontSize = responsiveFontSize.sp, fontWeight = FontWeight.Bold, modifier = Modifier.height(textHeight))
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
