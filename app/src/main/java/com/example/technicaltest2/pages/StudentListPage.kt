@@ -32,6 +32,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -52,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -359,9 +362,11 @@ fun StudentItem(student: Student, openedStudent: Student?, onStudentClick: (Stud
                 },
             ) {
                 Icon(
-                    imageVector = if (isOpened) Icons.Default.Close else Icons.Default.Info,
+                    imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "info",
-                    tint = SecondaryColor
+                    tint = SecondaryColor,
+                    modifier = Modifier
+                        .rotate(if (isOpened) 180f else 0f)
                 )
             }
         }
