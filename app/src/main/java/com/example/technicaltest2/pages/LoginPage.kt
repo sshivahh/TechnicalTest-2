@@ -295,7 +295,7 @@ fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: A
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(SecondaryColor)
-                    .fillMaxHeight(0.2f),
+                    .fillMaxHeight(0.05f),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
