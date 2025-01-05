@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class AuthViewModel : ViewModel(){
 
     private val _authState = MutableLiveData<AuthState>().apply {
-        value = AuthState.Authenticated
+        value = AuthState.Unauthenticated
     }
     val authState : LiveData<AuthState> = _authState
 
